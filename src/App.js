@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import "./styles.css"
+ const Swal = require('sweetalert2')
 class App extends React.Component {
   constructor(props){
     super(props);
@@ -17,6 +18,33 @@ class App extends React.Component {
   })
 
 }
+confirm=()=>{
+Swal.fire({
+title:"Upload Picture?",
+showCancelButton:true,
+confirmButtonColor:"#3085d6",
+cancelButtonColor:"red",
+confirmButtonText:"Yes",
+}).then((result)=>{
+ if(result.value){
+
+this.onClickHandler();
+
+ }
+
+}).then((loaded)=>{
+    if(loaded){
+    Swal.fire(
+    "Picture Uploaded!",
+    "Success"
+    )
+    }
+})
+}
+
+
+
+
 onClickHandler=()=>{
   const data= new FormData();
   data.append('file',this.state.selectedFile);
@@ -24,6 +52,7 @@ onClickHandler=()=>{
 
   })
 .then(res=>{
+    this.setState({loaded:1})
   console.log(res.statusText);
 })
 }
@@ -34,16 +63,19 @@ render(){
 	<div className="row">
 	  <div className="col-md-6">
 	      <form method="post" action="#" id="#">
-            <div className="form-group files">
-                <label><br/> Upload Your File : </label>
-                <input type="file" className="form-control" multiple="" onChange={this.onChangeHandler}/>
+            
+            <div className="form-group files"><br/><br/>
+                  <div className="card ">
+                <label className="head"> <br/><b>Profile Card:</b> </label>
+                <input type="file" id="myinput" className="form-control" multiple="" onChange={this.onChangeHandler}/>
                 <br/>
                
-             <button type="button" className="btn btn-success btn-block" onClick={this.onClickHandler}>Upload</button>
+             <button type="button" className="btn btn-success btn-block" onClick={this.confirm}>Upload</button>
               </div>
               
-            
+            </div>
           </form>
+
 	      </div>
 	      </div>
 	  </div>
